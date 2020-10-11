@@ -139,7 +139,7 @@ export const getTruthTable = expression => {
         }
     });
 
-    if(variables.length > 6) {
+    if (variables.length > 6) {
         throw (`Expressions with ${variables.length} variables are not allowed. Max 6 variables.`);
     }
 
@@ -211,23 +211,4 @@ export const getKNF = truthTable => {
     });
 
     return knfResult.join('∧');
-
 };
-
-// "(¬A ∨ ¬B) ∧ (¬A ∨ B) ∧ (A ∨ ¬B)"
-// "(A ∧ B) ∧ (¬A ∧ ¬B)"
-// "A → (B ∨ (C ∧ D))"
-// "¬A ∧ ¬B"
-// "A∧B∧C"
-// "¬(A∨B∨C)"
-
-// const expression = "A → (B ∨ C)";
-// const truthTable = getTruthTable(expression);
-// console.log('Truth Table:')
-// console.log(truthTable)
-
-// const dnf = getDNF([...truthTable]);
-// console.log('DNF: ', dnf);
-
-// const knf = getKNF([...truthTable]);
-// console.log('KNF: ', knf);

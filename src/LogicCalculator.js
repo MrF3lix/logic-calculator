@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classnames from 'classnames';
 import { Form, Field, FormSpy } from 'react-final-form';
 import { InputText } from './shared/forms/InputText';
 
@@ -77,7 +78,7 @@ export const LogicCalculator = () => {
                                 <td>{dnf}</td>
                             </tr>
                             <tr>
-                                <th>KNF</th>
+                                <th>CNF</th>
                                 <td>{knf}</td>
                             </tr>
                         </table>
@@ -101,7 +102,10 @@ export const LogicCalculator = () => {
                                     return (
                                         <tr key={i}>
                                             {row.map((cell, n) => (
-                                                <td key={i + n}>{cell}</td>
+                                                <td className={classnames({
+                                                    'false': cell == 0,
+                                                    'true': cell == 1
+                                                })} key={i + n}>{cell}</td>
                                             ))}
                                         </tr>
                                     );

@@ -83,5 +83,13 @@ table {
         border: 1px solid $medium-gray;
         text-align: left;
         padding: 7px 10px;
+
+        &.false {
+            background: rgba(255, 0, 0, .2);
+        }
+
+        &.true {
+            background: rgba(0, 255, 0, .2);
+        }
     }
 }
