@@ -105,7 +105,13 @@ const parseRPN = (string, values) => {
         }
     }
 
-    return stack[0];
+    const result = stack[0];
+
+    if (isNaN(result)) {
+        return values[result];
+    }
+
+    return result;
 };
 
 const exchangeAlternativeOperators = expression => {

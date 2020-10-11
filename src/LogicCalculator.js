@@ -13,7 +13,7 @@ export const LogicCalculator = () => {
 
     const onSubmit = values => {
 
-        if(!values || !values.expression) {
+        if (!values || !values.expression) {
             setTruthTable(null);
             setDnf(null);
             setKnf(null);
@@ -47,6 +47,9 @@ export const LogicCalculator = () => {
                 subscription={{
                     values: true
                 }}
+                initialValues={
+                    { expression: 'A' }
+                }
                 render={({ handleSubmit, submitting }) => (
                     <form onSubmit={handleSubmit}>
                         <FormSpy subscription={{ values: true }} onChange={handleSubmit} />
@@ -58,7 +61,6 @@ export const LogicCalculator = () => {
                                 placeholder="(A ∧ B)"
                                 component={InputText}
                                 disabled={submitting}
-                                // validate={Required}
                             />
                         </div>
                     </form>
@@ -73,14 +75,16 @@ export const LogicCalculator = () => {
                         <h3>Normalized Forms</h3>
 
                         <table>
-                            <tr>
-                                <th>DNF</th>
-                                <td>{dnf}</td>
-                            </tr>
-                            <tr>
-                                <th>CNF</th>
-                                <td>{knf}</td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <th>DNF</th>
+                                    <td>{dnf}</td>
+                                </tr>
+                                <tr>
+                                    <th>CNF</th>
+                                    <td>{knf}</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </>
                 }
