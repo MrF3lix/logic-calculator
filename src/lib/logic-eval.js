@@ -1,26 +1,11 @@
+import { getBinaryArrayFromDecimal } from './binary';
+
 const ShuntingYard = require('./shunting-yard');
 
 const mappedOperators = {
     '¬': ['NOT', '!'],
     '∧': ['AND', '&'],
     '∨': ['OR', '#']
-};
-
-
-const dec2bin = dec => {
-    return (dec >>> 0).toString(2);
-};
-
-const getBinaryArrayFromDecimal = (dec, length) => {
-    let rowBin = dec2bin(dec).split('');
-
-    rowBin = rowBin.map(i => parseInt(i));
-
-    while (rowBin.length < length) {
-        rowBin.unshift(0);
-    }
-
-    return rowBin;
 };
 
 const AND = (param1, param2) => {
@@ -127,7 +112,6 @@ const exchangeAlternativeOperators = expression => {
     return expression;
 };
 
-//BUG with expression is only one variable
 export const getTruthTable = expression => {
 
     expression = exchangeAlternativeOperators(expression);
@@ -169,7 +153,6 @@ export const getTruthTable = expression => {
 
         truthTable.push(rowAsBinary);
     }
-
 
     return truthTable;
 };

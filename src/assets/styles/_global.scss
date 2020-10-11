@@ -34,11 +34,17 @@ label {
     margin: 5px 0;
 }
 
-input {
+input,
+textarea {
+    width: 100%;
     font-size: 18px;
     padding: 10px 15px;
     border: 1px solid $medium-gray;
     border-radius: 3px;
+}
+
+textarea {
+    min-height: 200px;
 }
 
 .input__container {
@@ -83,6 +89,7 @@ table {
         border: 1px solid $medium-gray;
         text-align: left;
         padding: 7px 10px;
+        font-size: 18px;
 
         &.false {
             background: rgba(255, 0, 0, .2);
@@ -90,6 +97,61 @@ table {
 
         &.true {
             background: rgba(0, 255, 0, .2);
+        }
+    }
+}
+
+
+.truth-table__input {
+    display: flex;
+
+    table {
+        width: auto;
+    }
+
+    button {
+        margin: 0 10px;
+    }
+
+
+    .td--result {
+        padding: 0;
+        width: 30px;
+        text-align: center;
+
+        label {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 7px 10px;
+            border: none;
+            width: auto;
+            background: none;
+        }
+
+        input {
+            display: none;
+        }
+
+    }
+}
+
+.toggel {
+    width: 100%;
+    display: flex;
+    border-radius: 3px;
+    border: 1px solid $dark-purple;
+    margin: 10px 0;
+
+    .toggel__item {
+        width: 100%;
+        padding: 10px 15px;
+        cursor: pointer;
+
+        &.toggel__item--selected {
+            background: $dark-purple;
+            color: $white;
         }
     }
 }
