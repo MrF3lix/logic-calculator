@@ -47,9 +47,6 @@ export const LogicCalculator = () => {
                 subscription={{
                     values: true
                 }}
-                initialValues={
-                    { expression: 'A' }
-                }
                 render={({ handleSubmit, submitting }) => (
                     <form onSubmit={handleSubmit}>
                         <FormSpy subscription={{ values: true }} onChange={handleSubmit} />
