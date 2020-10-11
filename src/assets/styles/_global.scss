@@ -14,7 +14,7 @@ h2 {
     font-family: 'Roboto', sans-serif;
     font-size: 28px;
     line-height: 32px;
-    margin: 10px 0 5px;
+    margin: 0 0 5px;
 }
 
 h3 {
@@ -153,5 +153,14 @@ table {
             background: $dark-purple;
             color: $white;
         }
+    }
+}
+
+.result {
+    display: flex;
+    flex-direction: column;
+
+    > div {
+        margin-bottom: 20px;
     }
 }

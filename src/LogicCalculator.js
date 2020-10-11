@@ -2,32 +2,23 @@ import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
 import { Form, Field, FormSpy } from 'react-final-form';
 import { InputText } from './shared/forms/InputText';
-import { TruthTable } from './TruthTable';
+import { TruthTableInput } from './TruthTableInput';
+import { TruthTableOutput } from './TruthTableOutput';
 
-import { getDNF, getKNF, getTruthTable } from './lib/logic-eval';
+import { getDNF, getKNF, getTruthTable, removeRedundantVariables } from './lib/logic-eval';
 
 export const LogicCalculator = () => {
     const [isInputExpression, setIsInputExpression] = useState(true);
     const [truthTable, setTruthTable] = useState();
-    const [dnf, setDnf] = useState();
-    const [knf, setKnf] = useState();
-
-    const saveTruthTableAndGetNormalForm = tt => {
-
-        const dnf = getDNF([...tt]);
-        const knf = getKNF([...tt]);
-
-        setDnf(dnf);
-        setKnf(knf);
-
-        setTruthTable(tt);
-    };
-
+    const [simpleTruthTable, setSimpleTruthTable] = useState();
 
     const createTruthTable = values => {
         try {
             const tt = getTruthTable(values.expression);
-            saveTruthTableAndGetNormalForm([...tt]);
+            const truthTableWithoutRedundantCols = removeRedundantVariables(values.expression);
+
+            setSimpleTruthTable([...truthTableWithoutRedundantCols]);
+            setTruthTable([...tt]);
         } catch (e) {
             return { expression: `${e}` };
         }
@@ -38,7 +29,7 @@ export const LogicCalculator = () => {
             const tt = JSON.parse(values.truthTable);
             if (!Array.isArray(tt) || tt.length < 2) return;
 
-            saveTruthTableAndGetNormalForm([...tt]);
+            setTruthTable([...tt]);
         } catch (e) {
             return { truthTable: `${e}` };
         }
@@ -55,8 +46,6 @@ export const LogicCalculator = () => {
         }
         else {
             setTruthTable(null);
-            setDnf(null);
-            setKnf(null);
 
             return;
         }
@@ -64,12 +53,13 @@ export const LogicCalculator = () => {
 
     useEffect(() => {
         if (!Array.isArray(truthTable) || truthTable.length < 2) return;
+
+
         const dnf = getDNF([...truthTable]);
         const knf = getKNF([...truthTable]);
 
-        setDnf(dnf);
-        setKnf(knf);
-
+        const truthTableWithoutRedundantCols = removeRedundantVariables(dnf || knf);
+        setSimpleTruthTable([...truthTableWithoutRedundantCols]);
 
     }, [truthTable]);
 
@@ -101,59 +91,23 @@ export const LogicCalculator = () => {
                     )}
                 />
                 :
-                <TruthTable setTruthTable={setTruthTable} />
+                <TruthTableInput setTruthTable={setTruthTable} />
             }
             <hr />
             <div className="result">
-                <h2>Results</h2>
 
-                {(dnf || knf) &&
-                    <>
-                        <h3>Normalized Forms</h3>
-
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <th>DNF</th>
-                                    <td>{dnf}</td>
-                                </tr>
-                                <tr>
-                                    <th>CNF</th>
-                                    <td>{knf}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </>
+                {truthTable &&
+                    <div>
+                        <h2>Full Truth Table</h2>
+                        <TruthTableOutput truthTable={truthTable} />
+                    </div>
                 }
 
-
-                {truthTable && isInputExpression &&
-                    <>
-                        <h3>Truth Table</h3>
-                        <table>
-                            <tbody>
-                                {truthTable.map((row, i) => {
-                                    return (
-                                        <tr key={i}>
-                                            {row.map((cell, n) => (
-                                                <React.Fragment key={i + n}>
-                                                    {i === 0 ?
-                                                        <th>{cell}</th>
-                                                        :
-                                                        <td className={classnames({
-                                                            'false': cell == 0,
-                                                            'true': cell == 1,
-                                                        })} >{cell}</td>
-                                                    }
-                                                </React.Fragment >
-                                            ))}
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                    </>
-
+                {simpleTruthTable && truthTable && (truthTable[0].length != simpleTruthTable[0].length) &&
+                    <div>
+                        <h2>Simple Truth Table</h2>
+                        <TruthTableOutput truthTable={simpleTruthTable} />
+                    </div>
                 }
             </div>
         </>

@@ -4,7 +4,7 @@ import { getBinaryArrayFromDecimal } from './lib/binary';
 
 const alphabet = ['A', 'B', 'C', 'D', 'E', 'F'];
 
-export const TruthTable = ({ setTruthTable }) => {
+export const TruthTableInput = ({ setTruthTable }) => {
     const [amountVariables, setAmountVariables] = useState(2);
     const [inputTable, setInputTable] = useState();
     const [truthTableHeader, setTruthTableHeader] = useState();

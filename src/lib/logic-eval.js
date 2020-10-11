@@ -1,3 +1,4 @@
+import { distinctItems } from './array';
 import { getBinaryArrayFromDecimal } from './binary';
 
 const ShuntingYard = require('./shunting-yard');
@@ -110,6 +111,65 @@ const exchangeAlternativeOperators = expression => {
     });
 
     return expression;
+};
+
+const switchVal = val => val === 0 ? 1 : 0;
+
+export const removeRedundantVariables = expression => {
+    if (!expression) return;
+
+    expression = exchangeAlternativeOperators(expression);
+    const rpn = ShuntingYard.execute(expression);
+
+    const truthTable = getTruthTable(expression);
+
+    const header = truthTable[0];
+    header[header.length -1] = 'Result';
+
+    const redundantCols = [];
+    for (let colIndex = 0; colIndex < header.length - 1; colIndex++) {
+
+
+        const testCol = truthTable.map((row, i) => {
+            if (i === 0) return;
+
+            let values = {};
+
+            header.forEach((h, n) => {
+                if (n === colIndex) {
+                    values[h] = switchVal(row[n]);
+
+                } else {
+                    values[h] = row[n];
+                }
+            });
+
+            let result = parseRPN(rpn, values);
+            return result === row[header.length - 1];
+        });
+
+        const isColRedundant = !testCol.some(i => i === false);
+        if (isColRedundant) {
+            redundantCols.push(colIndex);
+        }
+
+    }
+
+    if(redundantCols.length === 0) return truthTable;
+
+    const newTruthTable = truthTable.map(row => {
+        const newRow = [];
+
+        row.forEach((col, n) => {
+            if (!redundantCols.some(r => r === n)) {
+                newRow.push(col);
+            }
+        });
+
+        return newRow;
+    });
+
+    return distinctItems(newTruthTable);
 };
 
 export const getTruthTable = expression => {
