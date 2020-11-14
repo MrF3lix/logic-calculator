@@ -3,10 +3,16 @@ import { getBinaryArrayFromDecimal } from './binary';
 
 const ShuntingYard = require('./shunting-yard');
 
+/**
+ * Der Äquivalenz-Operator muss vor dem Implikation-Operator angegeben werden, da gemeinsame Alternative Zeichen verwendet werden.
+ * @type {{"→": [string, string, string], "↔": [string, string, string], "∧": [string, string], "∨": [string, string], "¬": [string, string]}}
+ */
 const mappedOperators = {
     '¬': ['NOT', '!'],
     '∧': ['AND', '&'],
-    '∨': ['OR', '#']
+    '∨': ['OR', '#'],
+    '↔': ['EQ', '<->','<=>'],
+    '→': ['IMPL', '->','=>']
 };
 
 const AND = (param1, param2) => {
@@ -100,6 +106,11 @@ const parseRPN = (string, values) => {
     return result;
 };
 
+/**
+ * Ersetzt alternative Operatoren mit dem "Originalen" Operator
+ * @param expression
+ * @returns {*}
+ */
 const exchangeAlternativeOperators = expression => {
     const operators = Object.keys(mappedOperators);
 
