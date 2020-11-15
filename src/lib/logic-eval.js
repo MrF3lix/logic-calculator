@@ -3,10 +3,17 @@ import { getBinaryArrayFromDecimal } from './binary';
 
 const ShuntingYard = require('./shunting-yard');
 
+/**
+ * The equivalence-operator must be added before the implication-operator, 
+ * because some of the alternativ operators used for implication are also used for equivalence.
+ * @type {{"→": [string, string, string], "↔": [string, string, string], "∧": [string, string], "∨": [string, string], "¬": [string, string]}}
+ */
 const mappedOperators = {
     '¬': ['NOT', '!'],
     '∧': ['AND', '&'],
-    '∨': ['OR', '#']
+    '∨': ['OR', '#'],
+    '↔': ['EQ', '<->','<=>'],
+    '→': ['IMPL', '->','=>']
 };
 
 const AND = (param1, param2) => {
