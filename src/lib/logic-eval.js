@@ -4,7 +4,8 @@ import { getBinaryArrayFromDecimal } from './binary';
 const ShuntingYard = require('./shunting-yard');
 
 /**
- * Der Äquivalenz-Operator muss vor dem Implikation-Operator angegeben werden, da gemeinsame Alternative Zeichen verwendet werden.
+ * The equivalence-operator must be added before the implication-operator, 
+ * because some of the alternativ operators used for implication are also used for equivalence.
  * @type {{"→": [string, string, string], "↔": [string, string, string], "∧": [string, string], "∨": [string, string], "¬": [string, string]}}
  */
 const mappedOperators = {
@@ -106,11 +107,6 @@ const parseRPN = (string, values) => {
     return result;
 };
 
-/**
- * Ersetzt alternative Operatoren mit dem "Originalen" Operator
- * @param expression
- * @returns {*}
- */
 const exchangeAlternativeOperators = expression => {
     const operators = Object.keys(mappedOperators);
 
