@@ -6,10 +6,10 @@
     "icon": "img/logic-calculator-logo.png",
     "repository": {
         "type": "git",
-        "url": "https://github.com/MrF3lix/mdtex.git"
+        "url": "https://github.com/MrF3lix/logic-calculator.git"
     },
     "bugs": {
-        "url": "https://github.com/MrF3lix/mdtex/issues"
+        "url": "https://github.com/MrF3lix/logic-calculator/issues"
     },
     "dependencies": {
         "@testing-library/jest-dom": "^4.2.4",
